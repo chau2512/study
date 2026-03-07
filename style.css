@@ -2690,3 +2690,134 @@ select {
         padding: 28px 20px;
     }
 }
+
+/* === OTP VERIFICATION === */
+.otp-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    background: var(--gold-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--gold);
+}
+
+.otp-email-display {
+    display: block;
+    color: var(--gold);
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 24px 0 16px;
+}
+
+.otp-digit {
+    width: 48px;
+    height: 56px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: var(--transition);
+}
+
+.otp-digit:focus {
+    border-color: var(--gold);
+    background: var(--bg-secondary);
+    box-shadow: 0 0 0 3px rgba(198, 151, 63, 0.15);
+}
+
+.otp-timer {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+}
+
+.otp-timer span {
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.otp-resend {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-tertiary);
+    margin-top: 12px;
+}
+
+.otp-resend-link {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: var(--transition-fast);
+}
+
+.otp-resend-link:hover:not(:disabled) {
+    text-decoration: underline;
+}
+
+.otp-resend-link:disabled {
+    cursor: not-allowed;
+}
+
+/* Shake animation for wrong OTP */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-8px);
+    }
+
+    40% {
+        transform: translateX(8px);
+    }
+
+    60% {
+        transform: translateX(-6px);
+    }
+
+    80% {
+        transform: translateX(6px);
+    }
+}
+
+.otp-inputs.shake {
+    animation: shake 0.5s ease;
+}
+
+.otp-inputs.shake .otp-digit {
+    border-color: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .otp-digit {
+        width: 40px;
+        height: 48px;
+        font-size: 20px;
+    }
+
+    .otp-inputs {
+        gap: 6px;
+    }
+}

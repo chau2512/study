@@ -787,6 +787,35 @@
             </button>
             <div class="auth-error" id="register-error"></div>
         </form>
+
+        <!-- OTP VERIFICATION STEP -->
+        <div class="auth-form otp-step" id="otp-step" style="display:none;">
+            <div class="auth-welcome">
+                <div class="otp-icon"><i class="fas fa-envelope-open-text"></i></div>
+                <h3>Xác thực Email</h3>
+                <p>Chúng tôi đã gửi mã OTP 6 số tới</p>
+                <strong class="otp-email-display" id="otp-email-display">email@example.com</strong>
+            </div>
+            <div class="otp-inputs" id="otp-inputs">
+                <input type="text" maxlength="1" class="otp-digit" data-idx="0" inputmode="numeric" autofocus>
+                <input type="text" maxlength="1" class="otp-digit" data-idx="1" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-digit" data-idx="2" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-digit" data-idx="3" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-digit" data-idx="4" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-digit" data-idx="5" inputmode="numeric">
+            </div>
+            <div class="otp-timer">
+                Mã hết hạn sau: <span id="otp-countdown">05:00</span>
+            </div>
+            <button class="btn btn-primary btn-full auth-submit" id="otp-verify-btn">
+                <i class="fas fa-check-circle"></i> Xác thực
+            </button>
+            <div class="otp-resend">
+                <span>Chưa nhận được mã?</span>
+                <button id="otp-resend-btn" class="otp-resend-link">Gửi lại</button>
+            </div>
+            <div class="auth-error" id="otp-error"></div>
+        </div>
     </div>
 
     <!-- ===== AUTH GATE MODAL (yêu cầu đăng nhập khi mua hàng) ===== -->
