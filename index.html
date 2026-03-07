@@ -46,6 +46,35 @@
                 <button class="icon-btn search-toggle" id="search-toggle" aria-label="Tìm kiếm">
                     <i class="fas fa-search"></i>
                 </button>
+                <!-- User Account -->
+                <div class="user-account-wrap" id="user-account-wrap">
+                    <button class="icon-btn user-toggle" id="user-toggle" aria-label="Tài khoản">
+                        <i class="fas fa-user" id="user-icon"></i>
+                    </button>
+                    <div class="user-dropdown" id="user-dropdown">
+                        <div class="user-dropdown-guest" id="dropdown-guest">
+                            <p>Chào mừng bạn đến Lụa Mã Châu!</p>
+                            <button class="btn btn-primary btn-full" id="btn-open-login">Đăng nhập</button>
+                            <button class="btn btn-outline btn-full" id="btn-open-register">Tạo tài khoản</button>
+                        </div>
+                        <div class="user-dropdown-logged" id="dropdown-logged" style="display:none;">
+                            <div class="user-avatar-name">
+                                <div class="user-avatar" id="user-avatar">M</div>
+                                <div>
+                                    <strong id="user-display-name">Khách hàng</strong>
+                                    <small id="user-display-email">email@example.com</small>
+                                </div>
+                            </div>
+                            <hr>
+                            <a href="#" class="dropdown-link"><i class="fas fa-shopping-bag"></i> Đơn hàng của tôi</a>
+                            <a href="#" class="dropdown-link"><i class="fas fa-heart"></i> Yêu thích</a>
+                            <a href="#" class="dropdown-link"><i class="fas fa-cog"></i> Cài đặt</a>
+                            <hr>
+                            <button class="btn btn-outline btn-full" id="btn-logout"><i class="fas fa-sign-out-alt"></i>
+                                Đăng xuất</button>
+                        </div>
+                    </div>
+                </div>
                 <button class="icon-btn cart-toggle" id="cart-toggle" aria-label="Giỏ hàng">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-badge" id="cart-badge">0</span>
@@ -53,9 +82,9 @@
                 <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Chế độ tối">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="tel:0979003511" class="hotline-btn">
+                <a href="tel:0848543171" class="hotline-btn">
                     <i class="fas fa-phone-volume"></i>
-                    <span>0979.003.511</span>
+                    <span>0848.543.171</span>
                 </a>
                 <button class="hamburger" id="hamburger" aria-label="Menu">
                     <span></span><span></span><span></span>
@@ -686,7 +715,95 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    <!-- ===== AUTH MODAL ===== -->
+    <div class="auth-overlay" id="auth-overlay"></div>
+    <div class="auth-modal" id="auth-modal">
+        <button class="auth-close" id="auth-close"><i class="fas fa-times"></i></button>
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">Đăng nhập</button>
+            <button class="auth-tab" data-tab="register">Tạo tài khoản</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form class="auth-form" id="login-form">
+            <div class="auth-welcome">
+                <h3>Chào mừng trở lại!</h3>
+                <p>Đăng nhập để mua sắm và theo dõi đơn hàng</p>
+            </div>
+            <div class="auth-field">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="login-email" placeholder="Email" required>
+            </div>
+            <div class="auth-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="login-password" placeholder="Mật khẩu" required>
+                <button type="button" class="pass-toggle"><i class="fas fa-eye"></i></button>
+            </div>
+            <div class="auth-options">
+                <label class="auth-remember">
+                    <input type="checkbox" checked> Ghi nhớ đăng nhập
+                </label>
+                <a href="#" class="auth-forgot">Quên mật khẩu?</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full auth-submit">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+            </button>
+            <div class="auth-error" id="login-error"></div>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form class="auth-form" id="register-form" style="display:none;">
+            <div class="auth-welcome">
+                <h3>Tạo tài khoản mới</h3>
+                <p>Đăng ký để mua sắm và nhận ưu đãi đặc biệt</p>
+            </div>
+            <div class="auth-field">
+                <i class="fas fa-user"></i>
+                <input type="text" id="reg-name" placeholder="Họ và tên" required>
+            </div>
+            <div class="auth-field">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="reg-email" placeholder="Email" required>
+            </div>
+            <div class="auth-field">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="reg-phone" placeholder="Số điện thoại" required>
+            </div>
+            <div class="auth-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="reg-password" placeholder="Mật khẩu (tối thiểu 6 ký tự)" required
+                    minlength="6">
+                <button type="button" class="pass-toggle"><i class="fas fa-eye"></i></button>
+            </div>
+            <div class="auth-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="reg-confirm" placeholder="Nhập lại mật khẩu" required>
+            </div>
+            <label class="auth-remember">
+                <input type="checkbox" required> Tôi đồng ý với <a href="#">điều khoản sử dụng</a>
+            </label>
+            <button type="submit" class="btn btn-primary btn-full auth-submit">
+                <i class="fas fa-user-plus"></i> Tạo tài khoản
+            </button>
+            <div class="auth-error" id="register-error"></div>
+        </form>
+    </div>
+
+    <!-- ===== AUTH GATE MODAL (yêu cầu đăng nhập khi mua hàng) ===== -->
+    <div class="auth-gate-overlay" id="auth-gate-overlay"></div>
+    <div class="auth-gate" id="auth-gate">
+        <div class="auth-gate-icon"><i class="fas fa-lock"></i></div>
+        <h3>Vui lòng đăng nhập</h3>
+        <p>Bạn cần đăng nhập hoặc tạo tài khoản để thêm sản phẩm vào giỏ hàng và mua sắm.</p>
+        <div class="auth-gate-actions">
+            <button class="btn btn-primary" id="gate-login"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>
+            <button class="btn btn-outline" id="gate-register"><i class="fas fa-user-plus"></i> Tạo tài khoản</button>
+        </div>
+        <button class="auth-gate-close" id="gate-close">Để sau</button>
+    </div>
+
     <script src="script.js"></script>
+    <script src="auth.js"></script>
 </body>
 
 </html>

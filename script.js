@@ -327,6 +327,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addToCart(name, price, img) {
+        // Kiểm tra đăng nhập trước khi thêm giỏ hàng
+        if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
+            if (typeof showAuthGate === 'function') showAuthGate();
+            return;
+        }
         const existing = cart.find(item => item.name === name);
         if (existing) {
             existing.qty += 1;
@@ -363,6 +368,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Checkout
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', () => {
+            // Kiểm tra đăng nhập trước khi thanh toán
+            if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
+                if (typeof showAuthGate === 'function') showAuthGate();
+                return;
+            }
             if (cart.length > 0) {
                 const total = cart.reduce((s, item) => s + item.price * item.qty, 0);
                 showToast(`Đơn hàng ${formatPrice(total)} đã được ghi nhận! Cảm ơn bạn.`);
