@@ -1,0 +1,13 @@
+# Temp files
+webdev-agent-skills-temp/
+*.bat
+copy_images.js
+setup_images.ps1
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Antigravity
+.gemini/

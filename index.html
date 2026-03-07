@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CÔNG TY TNHH LỤA MÃ CHÂU - Lụa tơ tằm truyền thống làng nghề Mã Châu, Duy Xuyên, Quảng Nam. Tinh hoa nghề dệt hơn 600 năm.">
+    <title>Lụa Mã Châu - Tinh Hoa Tơ Tằm Truyền Thống</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ===== LOADING SCREEN ===== -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-silk"></div>
+            <p>Lụa Mã Châu</p>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="header">
+        <div class="header-container">
+            <a href="#" class="logo" aria-label="Machausilk Trang chủ">
+                <img src="images/logo.jpg" alt="Ma Chau Silk Logo" class="logo-img"
+                    style="height: 50px; width: auto; object-fit: contain;">
+            </a>
+
+            <nav class="nav-desktop" id="nav-desktop">
+                <a href="#home" class="nav-link active" data-section="home">Trang chủ</a>
+                <a href="#about" class="nav-link" data-section="about">Giới thiệu</a>
+                <a href="#products" class="nav-link" data-section="products">Sản phẩm</a>
+                <a href="#village" class="nav-link" data-section="village">Làng nghề</a>
+                <a href="#contact" class="nav-link" data-section="contact">Liên hệ</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-btn search-toggle" id="search-toggle" aria-label="Tìm kiếm">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="icon-btn cart-toggle" id="cart-toggle" aria-label="Giỏ hàng">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+                <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Chế độ tối">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="tel:0979003511" class="hotline-btn">
+                    <i class="fas fa-phone-volume"></i>
+                    <span>0979.003.511</span>
+                </a>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="search-overlay">
+            <div class="search-overlay-inner">
+                <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm, danh mục...">
+                <button class="search-close" id="search-close"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MOBILE NAV ===== -->
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="#home" class="mobile-link active">Trang chủ</a>
+            <a href="#about" class="mobile-link">Giới thiệu</a>
+            <a href="#products" class="mobile-link">Sản phẩm</a>
+            <a href="#village" class="mobile-link">Làng nghề</a>
+            <a href="#contact" class="mobile-link">Liên hệ</a>
+            <div class="mobile-info">
+                <p><i class="fas fa-phone"></i> 0979.003.511</p>
+                <p><i class="fas fa-envelope"></i> machausilk@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="hero-slider" id="hero-slider">
+            <div class="hero-slide active" data-bg="images/hero1.png">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-tag">Di sản văn hóa hơn 600 năm</span>
+                    <h1>Lụa Mã Châu</h1>
+                    <p>Tinh hoa nghề dệt lụa tơ tằm truyền thống từ làng nghề lâu đời nhất Việt Nam</p>
+                    <div class="hero-btns">
+                        <a href="#products" class="btn btn-primary">Khám phá sản phẩm</a>
+                        <a href="#about" class="btn btn-outline">Câu chuyện của chúng tôi</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide" data-bg="images/hero2.png">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-tag">100% tơ tằm tự nhiên</span>
+                    <h1>Tơ Tằm Nguyên Chất</h1>
+                    <p>Nguyên liệu được chọn lọc kỹ càng, tạo nên những sản phẩm lụa mềm mại, bền đẹp</p>
+                    <div class="hero-btns">
+                        <a href="#products" class="btn btn-primary">Xem bộ sưu tập</a>
+                        <a href="#village" class="btn btn-outline">Tham quan làng nghề</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide" data-bg="images/hero3.png">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-tag">Nghệ nhân dệt lụa truyền thống</span>
+                    <h1>Bàn Tay Nghệ Nhân</h1>
+                    <p>Kế thừa và phát triển kỹ thuật dệt lụa tinh xảo qua nhiều thế hệ</p>
+                    <div class="hero-btns">
+                        <a href="#village" class="btn btn-primary">Khám phá làng nghề</a>
+                        <a href="#contact" class="btn btn-outline">Liên hệ ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-controls">
+            <button class="hero-arrow prev" id="hero-prev"><i class="fas fa-arrow-left"></i></button>
+            <div class="hero-counter"><span id="hero-current">01</span> / <span id="hero-total">03</span></div>
+            <button class="hero-arrow next" id="hero-next"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="hero-scroll">
+            <span>Cuộn xuống</span>
+            <div class="scroll-indicator"></div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="features">
+        <div class="container">
+            <div class="features-row">
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon-wrap"><i class="fas fa-truck-fast"></i></div>
+                    <h4>Giao Hàng Toàn Quốc</h4>
+                    <p>Miễn phí vận chuyển cho đơn hàng trên 500.000đ</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon-wrap"><i class="fas fa-seedling"></i></div>
+                    <h4>Nguyên Liệu Tự Nhiên</h4>
+                    <p>100% tơ tằm nguyên chất, không pha tạp</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon-wrap"><i class="fas fa-shield-halved"></i></div>
+                    <h4>Thanh Toán An Toàn</h4>
+                    <p>Hỗ trợ COD, chuyển khoản & ví điện tử</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon-wrap"><i class="fas fa-medal"></i></div>
+                    <h4>Cam Kết Chất Lượng</h4>
+                    <p>Đổi trả miễn phí trong 30 ngày</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRODUCTS ===== -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header" data-aos>
+                <span class="section-tag">Bộ sưu tập</span>
+                <h2>Sản Phẩm Nổi Bật</h2>
+                <p>Những mẫu lụa tơ tằm được yêu thích nhất từ làng nghề Mã Châu</p>
+            </div>
+
+            <div class="product-filters" data-aos>
+                <button class="filter-btn active" data-filter="all">Tất cả</button>
+                <button class="filter-btn" data-filter="satin">Siêu Satin</button>
+                <button class="filter-btn" data-filter="silk">Lụa 100% Tơ Tằm</button>
+                <button class="filter-btn" data-filter="exclusive">Hàng Độc Nhà Mã</button>
+            </div>
+
+            <div class="product-grid">
+                <div class="product-card" data-category="silk" data-aos>
+                    <div class="product-img">
+                        <img src="images/product1.png" alt="Lụa Hoa Văn Cúc Cành" loading="lazy">
+                        <div class="product-actions">
+                            <button class="action-btn quick-view" data-product="1" title="Xem nhanh"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="action-btn add-cart" data-name="Lụa Hoa Văn Cúc Cành Xanh Rêu"
+                                data-price="135000" data-img="images/product1.png" title="Thêm giỏ hàng"><i
+                                    class="fas fa-shopping-bag"></i></button>
+                            <button class="action-btn wishlist" title="Yêu thích"><i class="fas fa-heart"></i></button>
+                        </div>
+                        <span class="product-badge">Bán chạy</span>
+                    </div>
+                    <div class="product-body">
+                        <span class="product-cat">Lụa Tơ Tằm</span>
+                        <h4>Lụa Hoa Văn Cúc Cành Xanh Rêu</h4>
+                        <div class="product-meta">
+                            <span class="product-code">LHCC01</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                <span>(24)</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">135.000đ</span>
+                            <span class="old-price">180.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="silk" data-aos>
+                    <div class="product-img">
+                        <img src="images/product2.png" alt="Lụa Hoa Văn Cúc Bạch" loading="lazy">
+                        <div class="product-actions">
+                            <button class="action-btn quick-view" data-product="2" title="Xem nhanh"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="action-btn add-cart" data-name="Lụa Hoa Văn Cúc Bạch" data-price="135000"
+                                data-img="images/product2.png" title="Thêm giỏ hàng"><i
+                                    class="fas fa-shopping-bag"></i></button>
+                            <button class="action-btn wishlist" title="Yêu thích"><i class="fas fa-heart"></i></button>
+                        </div>
+                        <span class="product-badge new">Mới</span>
+                    </div>
+                    <div class="product-body">
+                        <span class="product-cat">Lụa Tơ Tằm</span>
+                        <h4>Lụa Hoa Văn Cúc Bạch</h4>
+                        <div class="product-meta">
+                            <span class="product-code">LHCB02</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="far fa-star"></i>
+                                <span>(18)</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">135.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="satin" data-aos>
+                    <div class="product-img">
+                        <img src="images/product3.png" alt="Lụa Hoa Văn Cúc Xanh Lục" loading="lazy">
+                        <div class="product-actions">
+                            <button class="action-btn quick-view" data-product="3" title="Xem nhanh"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="action-btn add-cart" data-name="Lụa Hoa Văn Cúc Xanh Lục" data-price="135000"
+                                data-img="images/product3.png" title="Thêm giỏ hàng"><i
+                                    class="fas fa-shopping-bag"></i></button>
+                            <button class="action-btn wishlist" title="Yêu thích"><i class="fas fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-body">
+                        <span class="product-cat">Siêu Satin</span>
+                        <h4>Lụa Hoa Văn Cúc Xanh Lục</h4>
+                        <div class="product-meta">
+                            <span class="product-code">LHC33</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span>(31)</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">135.000đ</span>
+                            <span class="old-price">165.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="exclusive" data-aos>
+                    <div class="product-img">
+                        <img src="images/product4.png" alt="Lụa Hoa Văn Đuôi Công" loading="lazy">
+                        <div class="product-actions">
+                            <button class="action-btn quick-view" data-product="4" title="Xem nhanh"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="action-btn add-cart" data-name="Lụa Hoa Văn Đuôi Công" data-price="185000"
+                                data-img="images/product4.png" title="Thêm giỏ hàng"><i
+                                    class="fas fa-shopping-bag"></i></button>
+                            <button class="action-btn wishlist" title="Yêu thích"><i class="fas fa-heart"></i></button>
+                        </div>
+                        <span class="product-badge exclusive">Độc quyền</span>
+                    </div>
+                    <div class="product-body">
+                        <span class="product-cat">Hàng Độc Nhà Mã</span>
+                        <h4>Lụa Hoa Văn Đuôi Công</h4>
+                        <div class="product-meta">
+                            <span class="product-code">LHDC04</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                <span>(12)</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">185.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="satin" data-aos>
+                    <div class="product-img">
+                        <img src="images/product5.png" alt="Lụa Hoa Văn Hỷ Tre" loading="lazy">
+                        <div class="product-actions">
+                            <button class="action-btn quick-view" data-product="5" title="Xem nhanh"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="action-btn add-cart" data-name="Lụa Hoa Văn Hỷ Tre" data-price="135000"
+                                data-img="images/product5.png" title="Thêm giỏ hàng"><i
+                                    class="fas fa-shopping-bag"></i></button>
+                            <button class="action-btn wishlist" title="Yêu thích"><i class="fas fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-body">
+                        <span class="product-cat">Siêu Satin</span>
+                        <h4>Lụa Hoa Văn Hỷ Tre</h4>
+                        <div class="product-meta">
+                            <span class="product-code">LHVT05</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="far fa-star"></i>
+                                <span>(9)</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">135.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="exclusive" data-aos>
+                    <div class="product-img">
+                        <img src="images/product6.png" alt="Lụa Hoa Văn Trúc Lam" loading="lazy">
+                        <div class="product-actions">
+                            <button class="action-btn quick-view" data-product="6" title="Xem nhanh"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="action-btn add-cart" data-name="Lụa Hoa Văn Trúc Lam" data-price="155000"
+                                data-img="images/product6.png" title="Thêm giỏ hàng"><i
+                                    class="fas fa-shopping-bag"></i></button>
+                            <button class="action-btn wishlist" title="Yêu thích"><i class="fas fa-heart"></i></button>
+                        </div>
+                        <span class="product-badge new">Mới</span>
+                    </div>
+                    <div class="product-body">
+                        <span class="product-cat">Hàng Độc Nhà Mã</span>
+                        <h4>Lụa Hoa Văn Trúc Lam</h4>
+                        <div class="product-meta">
+                            <span class="product-code">LHTL06</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span>(27)</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">155.000đ</span>
+                            <span class="old-price">200.000đ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="products-cta" data-aos>
+                <a href="#" class="btn btn-primary">Xem tất cả sản phẩm <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-images" data-aos>
+                    <div class="about-img-main">
+                        <img src="images/building.png" alt="Nhà lụa Mã Châu" loading="lazy">
+                    </div>
+                    <div class="about-img-float">
+                        <img src="images/hero2.png" alt="Tơ tằm Mã Châu" loading="lazy">
+                        <div class="about-badge">
+                            <span class="badge-num">600+</span>
+                            <span class="badge-text">Năm truyền thống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text" data-aos>
+                    <span class="section-tag">Về chúng tôi</span>
+                    <h2>Làng Lụa Mã Châu <br>Di Sản Văn Hóa Việt Nam</h2>
+                    <p>Làng lụa Mã Châu thuộc thôn Châu Hiệp, xã Duy Trinh, huyện Duy Xuyên, tỉnh Quảng Nam. Theo truyền
+                        thuyết, vào thế kỷ XIV, nàng "Mã Châu" — một cung nữ nhà Trần — đã mang nghề dệt lụa đến vùng
+                        đất ven sông Thu Bồn.</p>
+                    <p>Trải qua hơn 600 năm, làng nghề vẫn lưu giữ và phát triển nghề dệt lụa truyền thống với nguyên
+                        liệu 100% tơ tằm tự nhiên. Sản phẩm nổi tiếng bởi độ mềm mại, bền đẹp, và họa tiết tinh xảo.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-num" data-count="600">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Năm lịch sử</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-num" data-count="50">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Mẫu lụa</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-num" data-count="10000">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Khách hàng</span>
+                        </div>
+                    </div>
+                    <a href="#village" class="btn btn-primary">Tìm hiểu thêm <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VILLAGE ===== -->
+    <section class="village" id="village">
+        <div class="container">
+            <div class="section-header center" data-aos>
+                <span class="section-tag">Khám phá</span>
+                <h2>Làng Nghề Mã Châu</h2>
+                <p>Hành trình từ cây dâu đến tấm lụa thành phẩm</p>
+            </div>
+            <div class="village-timeline">
+                <div class="timeline-item" data-aos>
+                    <div class="timeline-num">01</div>
+                    <div class="timeline-img">
+                        <img src="images/hero1.png" alt="Trồng dâu nuôi tằm" loading="lazy">
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Trồng Dâu Nuôi Tằm</h3>
+                        <p>Quy trình bắt đầu từ việc trồng dâu - nguồn thức ăn duy nhất cho tằm. Những vườn dâu xanh
+                            mướt ven sông Thu Bồn cung cấp lá dâu chất lượng, đảm bảo con tằm khỏe mạnh cho ra tơ tốt
+                            nhất.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reverse" data-aos>
+                    <div class="timeline-num">02</div>
+                    <div class="timeline-img">
+                        <img src="images/hero2.png" alt="Kéo tơ ươm sợi" loading="lazy">
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Kéo Tơ & Nhuộm Màu</h3>
+                        <p>Kén tằm được chọn lọc cẩn thận, ngâm nước ấm rồi kéo thành sợi tơ mảnh mai. Tơ sau đó được
+                            nhuộm bằng nguyên liệu tự nhiên từ cây cỏ, tạo nên những sắc màu bền đẹp theo thời gian.</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos>
+                    <div class="timeline-num">03</div>
+                    <div class="timeline-img">
+                        <img src="images/hero3.png" alt="Dệt lụa thủ công" loading="lazy">
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Dệt Lụa Thủ Công</h3>
+                        <p>Nghệ nhân dệt lụa trên khung cửi truyền thống, từng sợi tơ được đan xen tỉ mỉ tạo ra những
+                            tấm lụa mềm mại với họa tiết tinh xảo mang đậm bản sắc văn hóa Việt Nam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info" data-aos>
+                    <span class="section-tag">Liên hệ</span>
+                    <h2>Hãy Kết Nối Với Chúng Tôi</h2>
+                    <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn. Liên hệ ngay để được tư vấn sản phẩm lụa phù hợp nhất.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <h4>Địa chỉ</h4>
+                                <p>211 Trương Chí Cương, Nam Phước, Duy Xuyên, Quảng Nam</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div>
+                                <h4>Điện thoại</h4>
+                                <p>0979.003.511</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>machausilk@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                            <div>
+                                <h4>Giờ làm việc</h4>
+                                <p>Thứ 2 - Chủ nhật: 7:00 - 21:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrap" data-aos>
+                    <form class="contact-form" id="contact-form">
+                        <h3>Gửi tin nhắn cho chúng tôi</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="form-name" placeholder=" " required>
+                                <label for="form-name">Họ và tên *</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="form-phone" placeholder=" " required>
+                                <label for="form-phone">Số điện thoại *</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="form-email" placeholder=" ">
+                            <label for="form-email">Email</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="form-subject" required>
+                                <option value="" disabled selected>Chọn chủ đề</option>
+                                <option>Tư vấn sản phẩm</option>
+                                <option>Đặt hàng số lượng lớn</option>
+                                <option>Hợp tác kinh doanh</option>
+                                <option>Tham quan làng nghề</option>
+                                <option>Khác</option>
+                            </select>
+                            <label for="form-subject">Chủ đề *</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="form-message" rows="4" placeholder=" " required></textarea>
+                            <label for="form-message">Nội dung *</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Gửi tin nhắn
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MAP ===== -->
+    <section class="map-section">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3838.5!2d108.2!3d15.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDUxJzAwLjAiTiAxMDjCsDEyJzAwLjAiRQ!5e0!3m2!1svi!2s!4v1600000000000"
+            width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <a href="#" class="footer-logo">
+                            <img src="images/logo.jpg" alt="Ma Chau Silk Logo" class="logo-img"
+                                style="height: 45px; width: auto; object-fit: contain;">
+                        </a>
+                        <p class="footer-desc">Công ty TNHH Lụa Mã Châu - Kế thừa và phát triển tinh hoa nghề dệt lụa
+                            truyền thống hơn 600 năm.</p>
+                        <div class="footer-socials">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Liên kết nhanh</h4>
+                        <ul>
+                            <li><a href="#about">Giới thiệu</a></li>
+                            <li><a href="#products">Sản phẩm</a></li>
+                            <li><a href="#village">Làng nghề</a></li>
+                            <li><a href="#contact">Liên hệ</a></li>
+                            <li><a href="#">Câu hỏi thường gặp</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Chính sách</h4>
+                        <ul>
+                            <li><a href="#">Chính sách & Quy định chung</a></li>
+                            <li><a href="#">Chính sách giao hàng</a></li>
+                            <li><a href="#">Đổi trả sản phẩm</a></li>
+                            <li><a href="#">Bảo mật thông tin</a></li>
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Liên hệ</h4>
+                        <ul class="footer-contact">
+                            <li><i class="fas fa-map-marker-alt"></i> 211 Trương Chí Cương, Nam Phước, Duy Xuyên, Quảng
+                                Nam</li>
+                            <li><i class="fas fa-phone-alt"></i> 0979.003.511</li>
+                            <li><i class="fas fa-envelope"></i> machausilk@gmail.com</li>
+                        </ul>
+                        <div class="newsletter">
+                            <p>Đăng ký nhận tin mới</p>
+                            <form class="newsletter-form" id="newsletter-form">
+                                <input type="email" placeholder="Email của bạn" required>
+                                <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-inner">
+                <p>© 2024 Lụa Mã Châu. Tất cả quyền được bảo lưu.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fas fa-money-bill-wave"></i>
+                    <i class="fas fa-qrcode"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== CART SIDEBAR ===== -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> Giỏ hàng (<span id="cart-count-text">0</span>)</h3>
+            <button class="cart-close" id="cart-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-body" id="cart-body">
+            <div class="cart-empty" id="cart-empty">
+                <i class="fas fa-shopping-bag"></i>
+                <p>Giỏ hàng trống</p>
+                <a href="#products" class="btn btn-primary" id="cart-shop-now">Mua sắm ngay</a>
+            </div>
+            <div class="cart-items" id="cart-items"></div>
+        </div>
+        <div class="cart-footer" id="cart-footer" style="display:none">
+            <div class="cart-total">
+                <span>Tổng cộng:</span>
+                <span class="total-price" id="cart-total-price">0đ</span>
+            </div>
+            <button class="btn btn-primary btn-full" id="checkout-btn">Đặt hàng ngay</button>
+            <a href="#products" class="cart-continue" id="continue-shopping">← Tiếp tục mua sắm</a>
+        </div>
+    </div>
+
+    <!-- ===== QUICK VIEW MODAL ===== -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal" id="product-modal">
+        <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+        <div class="modal-body">
+            <div class="modal-img">
+                <img src="" alt="" id="modal-image">
+            </div>
+            <div class="modal-info">
+                <span class="product-cat" id="modal-cat"></span>
+                <h2 id="modal-title"></h2>
+                <div class="product-rating" id="modal-rating"></div>
+                <p class="modal-price" id="modal-price"></p>
+                <p class="modal-desc" id="modal-desc"></p>
+                <div class="modal-quantity">
+                    <label>Số lượng:</label>
+                    <div class="qty-control">
+                        <button class="qty-btn" id="qty-minus">−</button>
+                        <input type="number" value="1" min="1" id="qty-input">
+                        <button class="qty-btn" id="qty-plus">+</button>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-full" id="modal-add-cart">
+                    <i class="fas fa-shopping-bag"></i> Thêm vào giỏ hàng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST NOTIFICATION ===== -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button class="back-top" id="back-top" aria-label="Lên đầu trang">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
