@@ -8,22 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== PRODUCT DATA =====
     const productData = {
         1: {
-            name: 'Lụa Hoa Văn Cúc Cành Xanh Rêu',
-            code: 'LHCC01',
-            cat: 'Lụa Tơ Tằm',
-            price: 135000,
-            oldPrice: 180000,
-            img: 'images/product1.png',
-            desc: 'Lụa tơ tằm thiên nhiên với họa tiết hoa cúc cành nhuộm xanh rêu đặc trưng. Chất liệu mềm mại, thoáng mát, phù hợp may áo dài, khăn quàng cổ và phụ kiện thời trang cao cấp.',
-            rating: '4.5/5 (24 đánh giá)'
-        },
-        2: {
             name: 'Lụa Hoa Văn Cúc Bạch',
             code: 'LHCB02',
             cat: 'Lụa Tơ Tằm',
             price: 135000,
-            img: 'images/product2.png',
-            desc: 'Lụa trắng tinh khôi với hoa văn cúc bạch nhẹ nhàng, thanh lịch. Thích hợp cho những thiết kế cần sự tinh tế và sang trọng.',
+            oldPrice: 180000,
+            img: 'images/product1.jpg',
+            desc: 'Lụa tơ tằm thiên nhiên với họa tiết cúc bạch tinh tế trên nền xanh nhạt. Chất liệu mềm mại, thoáng mát, phù hợp may áo dài, khăn quàng cổ và phụ kiện thời trang cao cấp.',
+            rating: '4.5/5 (24 đánh giá)'
+        },
+        2: {
+            name: 'Lụa Hoa Văn Cúc Cành Nhuộm Xanh Rêu',
+            code: 'LHCC01',
+            cat: 'Lụa Tơ Tằm',
+            price: 135000,
+            img: 'images/product2.jpg',
+            desc: 'Lụa tơ tằm với họa tiết hoa cúc cành nhuộm xanh rêu đặc trưng. Chất liệu mềm mại, bền màu, thích hợp cho trang phục truyền thống và hiện đại.',
             rating: '4/5 (18 đánh giá)'
         },
         3: {
@@ -32,36 +32,36 @@ document.addEventListener('DOMContentLoaded', () => {
             cat: 'Siêu Satin',
             price: 135000,
             oldPrice: 165000,
-            img: 'images/product3.png',
+            img: 'images/product3.jpg',
             desc: 'Siêu satin cao cấp với họa tiết cúc xanh lục rực rỡ. Chống rạn, bền màu, thích hợp cho trang phục truyền thống và hiện đại.',
             rating: '5/5 (31 đánh giá)'
         },
         4: {
-            name: 'Lụa Hoa Văn Đuôi Công',
-            code: 'LHDC04',
+            name: 'Lụa Hoa Văn Hỉ Tre',
+            code: 'LHVHT05',
             cat: 'Hàng Độc Nhà Mã',
             price: 185000,
-            img: 'images/product4.png',
-            desc: 'Mẫu lụa độc quyền với họa tiết đuôi công tinh xảo - biểu tượng của sự cao quý. Sản phẩm giới hạn, chỉ có tại Lụa Mã Châu.',
+            img: 'images/product4.jpg',
+            desc: 'Mẫu lụa độc quyền với họa tiết hỉ tre tinh xảo - biểu tượng của sự phúc lộc. Sản phẩm giới hạn, chỉ có tại Lụa Mã Châu.',
             rating: '4.5/5 (12 đánh giá)'
         },
         5: {
-            name: 'Lụa Hoa Văn Hỷ Tre',
-            code: 'LHVT05',
+            name: 'Lụa Hoa Văn Đuôi Công',
+            code: 'LHĐC05',
             cat: 'Siêu Satin',
             price: 135000,
-            img: 'images/product5.png',
-            desc: 'Siêu satin chống rạn với họa tiết tre truyền thống. Biểu tượng của sự kiên cường và thanh cao.',
+            img: 'images/product5.jpg',
+            desc: 'Siêu satin chống rạn với họa tiết đuôi công truyền thống. Biểu tượng của sự kiên cường và thanh cao.',
             rating: '4/5 (9 đánh giá)'
         },
         6: {
-            name: 'Lụa Hoa Văn Trúc Lam',
-            code: 'LHTL06',
+            name: 'Lụa Hoa Văn Tròn',
+            code: 'LHĐC04',
             cat: 'Hàng Độc Nhà Mã',
             price: 155000,
             oldPrice: 200000,
-            img: 'images/product6.png',
-            desc: 'Lụa cao cấp với gam màu lam huyền bí và họa tiết trúc thanh thoát. Sản phẩm độc đáo phù hợp cho những người yêu thích sự khác biệt.',
+            img: 'images/product6.jpg',
+            desc: 'Lụa cao cấp với họa tiết tròn độc đáo trên nền vàng cam sang trọng. Sản phẩm độc quyền phù hợp cho những người yêu thích sự khác biệt.',
             rating: '5/5 (27 đánh giá)'
         }
     };
