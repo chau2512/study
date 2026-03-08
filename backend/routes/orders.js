@@ -56,7 +56,7 @@ router.post('/', authenticate, async (req, res) => {
 
         for (const item of items) {
             const [products] = await conn.query(
-                'SELECT * FROM products WHERE id = ? AND is_active = TRUE',
+                'SELECT * FROM products WHERE id = ? AND is_active = 1',
                 [item.product_id]
             );
             if (products.length === 0) {
@@ -86,8 +86,8 @@ router.post('/', authenticate, async (req, res) => {
         let coupon_id = null;
         if (coupon_code) {
             const [coupons] = await conn.query(
-                `SELECT * FROM coupons WHERE code = ? AND is_active = TRUE
-                 AND starts_at <= NOW() AND expires_at >= NOW()
+                `SELECT * FROM coupons WHERE code = ? AND is_active = 1
+                 AND starts_at <= datetime('now','localtime') AND expires_at >= datetime('now','localtime')
                  AND (usage_limit IS NULL OR used_count < usage_limit)`,
                 [coupon_code]
             );
@@ -118,7 +118,7 @@ router.post('/', authenticate, async (req, res) => {
         // Generate order code
         const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
         const [countToday] = await conn.query(
-            "SELECT COUNT(*) as cnt FROM orders WHERE DATE(created_at) = CURDATE()"
+            "SELECT COUNT(*) as cnt FROM orders WHERE date(created_at) = date('now','localtime')"
         );
         const order_code = `MC-${date}-${String(countToday[0].cnt + 1).padStart(3, '0')}`;
 

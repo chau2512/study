@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body;
 
         const [users] = await db.query(
-            'SELECT * FROM users WHERE email = ? AND is_active = TRUE',
+            'SELECT * FROM users WHERE email = ? AND is_active = 1',
             [email]
         );
         if (users.length === 0) {

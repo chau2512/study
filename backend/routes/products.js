@@ -2,7 +2,30 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const { authenticate, isAdmin } = require('../middleware/auth');
+const multer = require('multer');
+const path = require('path');
 
+// Multer storage config
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '..', '..', 'frontend', 'images'));
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        const name = `product-${Date.now()}-${Math.round(Math.random() * 1E4)}${ext}`;
+        cb(null, name);
+    }
+});
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+    fileFilter: (req, file, cb) => {
+        const allowed = /jpeg|jpg|png|webp|gif/;
+        const ext = allowed.test(path.extname(file.originalname).toLowerCase());
+        const mime = allowed.test(file.mimetype);
+        cb(null, ext && mime);
+    }
+});
 // GET /api/products — Danh sách sản phẩm (public)
 router.get('/', async (req, res) => {
     try {
@@ -14,8 +37,8 @@ router.get('/', async (req, res) => {
                    pi.image_url as primary_image
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
-            LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = TRUE
-            WHERE p.is_active = TRUE
+            LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1
+            WHERE p.is_active = 1
         `;
         const params = [];
 
@@ -33,7 +56,9 @@ router.get('/', async (req, res) => {
         }
 
         // Count total
-        const countSql = sql.replace(/SELECT .* FROM/, 'SELECT COUNT(*) as total FROM');
+        const countSql = `SELECT COUNT(*) as total FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            WHERE p.is_active = 1${category ? ' AND c.slug = ?' : ''}${badge ? ' AND p.badge = ?' : ''}${search ? ' AND (p.name LIKE ? OR p.description LIKE ?)' : ''}`;
         const [countResult] = await db.query(countSql, params);
         const total = countResult[0].total;
 
@@ -73,7 +98,7 @@ router.get('/:slug', async (req, res) => {
             SELECT p.*, c.name as category_name
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
-            WHERE p.slug = ? AND p.is_active = TRUE
+            WHERE p.slug = ? AND p.is_active = 1
         `, [req.params.slug]);
 
         if (products.length === 0) {
@@ -93,7 +118,7 @@ router.get('/:slug', async (req, res) => {
             SELECT r.*, u.full_name
             FROM reviews r
             LEFT JOIN users u ON r.user_id = u.id
-            WHERE r.product_id = ? AND r.is_approved = TRUE
+            WHERE r.product_id = ? AND r.is_approved = 1
             ORDER BY r.created_at DESC
             LIMIT 10
         `, [product.id]);
@@ -149,8 +174,36 @@ router.put('/:id', authenticate, isAdmin, async (req, res) => {
 // DELETE /api/products/:id — Xóa sản phẩm (admin)
 router.delete('/:id', authenticate, isAdmin, async (req, res) => {
     try {
-        await db.query('UPDATE products SET is_active = FALSE WHERE id = ?', [req.params.id]);
+        await db.query('UPDATE products SET is_active = 0 WHERE id = ?', [req.params.id]);
         res.json({ message: 'Đã xóa sản phẩm' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// POST /api/products/:id/images — Upload ảnh sản phẩm (admin)
+router.post('/:id/images', authenticate, isAdmin, upload.array('images', 5), async (req, res) => {
+    try {
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ error: 'Vui lòng chọn ít nhất 1 ảnh' });
+        }
+
+        // Check if product already has images
+        const [existing] = await db.query('SELECT COUNT(*) as cnt FROM product_images WHERE product_id = ?', [req.params.id]);
+        let hasPrimary = existing[0].cnt > 0;
+
+        const insertImg = [];
+        for (let i = 0; i < req.files.length; i++) {
+            const file = req.files[i];
+            const isPrimary = (!hasPrimary && i === 0) ? 1 : 0;
+            await db.query(
+                'INSERT INTO product_images (product_id, image_url, is_primary, sort_order) VALUES (?, ?, ?, ?)',
+                [req.params.id, `images/${file.filename}`, isPrimary, existing[0].cnt + i]
+            );
+            insertImg.push({ filename: file.filename, url: `images/${file.filename}`, is_primary: isPrimary });
+        }
+
+        res.json({ message: `Đã upload ${req.files.length} ảnh`, images: insertImg });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

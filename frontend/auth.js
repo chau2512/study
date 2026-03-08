@@ -47,15 +47,16 @@
     const btnLogout = document.getElementById('btn-logout');
 
     // ===== STATE =====
-    let pendingUser = null; // Lưu thông tin user đang chờ OTP
+    let pendingUser = null;
     let otpTimer = null;
+    const API_BASE = 'http://localhost:3000/api';
 
-    // ===== USER STORAGE =====
-    function getUsers() {
-        return JSON.parse(localStorage.getItem('machau_users') || '[]');
+    // ===== USER STORAGE (with JWT token) =====
+    function getToken() {
+        return localStorage.getItem('machau_token');
     }
-    function saveUsers(users) {
-        localStorage.setItem('machau_users', JSON.stringify(users));
+    function setToken(t) {
+        localStorage.setItem('machau_token', t);
     }
     function getCurrentUser() {
         return JSON.parse(localStorage.getItem('machau_current_user') || 'null');
@@ -65,12 +66,15 @@
     }
     function clearCurrentUser() {
         localStorage.removeItem('machau_current_user');
+        localStorage.removeItem('machau_token');
     }
 
     // ===== CHECK LOGIN STATUS =====
     window.isLoggedIn = function () {
-        return getCurrentUser() !== null;
+        return getCurrentUser() !== null && getToken() !== null;
     };
+    // Expose token for other scripts (cart)
+    window.getAuthToken = getToken;
 
     // ===== OPEN/CLOSE AUTH MODAL =====
     function openAuthModal(tab = 'login') {
@@ -328,34 +332,43 @@
         otpVerifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Xác thực';
 
         if (result.success) {
-            // OTP verified — Create account
-            const newUser = {
-                id: Date.now(),
-                full_name: pendingUser.name,
-                email: pendingUser.email,
-                phone: pendingUser.phone,
-                password: pendingUser.password,
-                role: 'customer',
-                email_verified: true,
-                created_at: new Date().toISOString()
-            };
-            const users = getUsers();
-            users.push(newUser);
-            saveUsers(users);
+            // OTP verified — Create account via API
+            try {
+                const res = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        full_name: pendingUser.name,
+                        email: pendingUser.email,
+                        phone: pendingUser.phone,
+                        password: pendingUser.password
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Lỗi tạo tài khoản');
 
-            // Auto login
-            const { password: _, ...safeUser } = newUser;
-            setCurrentUser(safeUser);
-            updateUI();
-            closeAuthModal();
-
-            if (typeof showToast === 'function') {
-                showToast('🎉 Tạo tài khoản thành công! Chào mừng ' + pendingUser.name);
+                // Auto login after register
+                const loginRes = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: pendingUser.email, password: pendingUser.password })
+                });
+                const loginData = await loginRes.json();
+                if (loginRes.ok && loginData.token) {
+                    setToken(loginData.token);
+                    setCurrentUser(loginData.user);
+                    updateUI();
+                    closeAuthModal();
+                    if (typeof showToast === 'function') {
+                        showToast('🎉 Tạo tài khoản thành công! Chào mừng ' + pendingUser.name);
+                    }
+                }
+            } catch (err) {
+                otpError.textContent = err.message;
             }
             pendingUser = null;
         } else {
             otpError.textContent = result.message;
-            // Shake animation
             document.getElementById('otp-inputs').classList.add('shake');
             setTimeout(() => document.getElementById('otp-inputs').classList.remove('shake'), 500);
         }
@@ -387,7 +400,7 @@
     });
 
     // ===== LOGIN =====
-    loginForm.addEventListener('submit', function (e) {
+    loginForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         loginError.textContent = '';
 
@@ -399,21 +412,32 @@
             return;
         }
 
-        const users = getUsers();
-        const user = users.find(u => u.email === email && u.password === password);
+        const submitBtn = loginForm.querySelector('.auth-submit');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đăng nhập...';
 
-        if (!user) {
-            loginError.textContent = 'Email hoặc mật khẩu không đúng';
-            return;
-        }
+        try {
+            const res = await fetch(`${API_BASE}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Đăng nhập thất bại');
 
-        const { password: _, ...safeUser } = user;
-        setCurrentUser(safeUser);
-        updateUI();
-        closeAuthModal();
+            setToken(data.token);
+            setCurrentUser(data.user);
+            updateUI();
+            closeAuthModal();
 
-        if (typeof showToast === 'function') {
-            showToast('👋 Chào mừng ' + user.full_name + ' trở lại!');
+            if (typeof showToast === 'function') {
+                showToast('👋 Chào mừng ' + data.user.full_name + ' trở lại!');
+            }
+        } catch (err) {
+            loginError.textContent = err.message;
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Đăng nhập';
         }
     });
 

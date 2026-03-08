@@ -156,17 +156,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchOverlay = document.getElementById('search-overlay');
     const searchClose = document.getElementById('search-close');
     const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    let searchTimeout;
 
     searchToggle.addEventListener('click', () => {
         searchOverlay.classList.add('active');
         setTimeout(() => searchInput.focus(), 300);
     });
-    searchClose.addEventListener('click', () => searchOverlay.classList.remove('active'));
+    searchClose.addEventListener('click', () => {
+        searchOverlay.classList.remove('active');
+        searchResults.innerHTML = '';
+    });
+
+    async function doSearch(query) {
+        if (!query || query.length < 2) { searchResults.innerHTML = ''; return; }
+        try {
+            const res = await fetch(`http://localhost:3000/api/products?search=${encodeURIComponent(query)}&limit=6`);
+            const data = await res.json();
+            if (data.products && data.products.length > 0) {
+                searchResults.innerHTML = data.products.map(p => `
+                    <a href="#san-pham" class="search-result-item" onclick="document.getElementById('search-overlay').classList.remove('active')">
+                        <img src="${p.primary_image || 'images/logo.png'}" alt="${p.name}">
+                        <div>
+                            <strong>${p.name}</strong>
+                            <span>${p.price.toLocaleString('vi-VN')}đ</span>
+                        </div>
+                    </a>
+                `).join('');
+            } else {
+                searchResults.innerHTML = '<p class="search-no-result">Không tìm thấy sản phẩm nào</p>';
+            }
+        } catch { searchResults.innerHTML = ''; }
+    }
+
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => doSearch(searchInput.value.trim()), 300);
+    });
     searchInput.addEventListener('keypress', e => {
         if (e.key === 'Enter' && searchInput.value.trim()) {
-            showToast(`Tìm kiếm: "${searchInput.value.trim()}"`);
-            searchOverlay.classList.remove('active');
-            searchInput.value = '';
+            doSearch(searchInput.value.trim());
         }
     });
 
@@ -249,6 +278,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== CART SYSTEM =====
     let cart = JSON.parse(localStorage.getItem('machau-cart') || '[]');
+    const CART_API = 'http://localhost:3000/api/cart';
+
+    // API sync helpers (background — don't block UI)
+    function cartApiHeaders() {
+        const t = typeof getAuthToken === 'function' ? getAuthToken() : null;
+        if (!t) return null;
+        return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t };
+    }
+    async function apiCartSync(productId, qty) {
+        const h = cartApiHeaders();
+        if (!h) return;
+        try { await fetch(CART_API, { method: 'POST', headers: h, body: JSON.stringify({ product_id: productId, quantity: qty }) }); } catch { }
+    }
 
     const cartToggle = document.getElementById('cart-toggle');
     const cartOverlay = document.getElementById('cart-overlay');
@@ -326,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('machau-cart', JSON.stringify(cart));
     }
 
-    function addToCart(name, price, img) {
+    function addToCart(name, price, img, productId) {
         // Kiểm tra đăng nhập trước khi thêm giỏ hàng
         if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
             if (typeof showAuthGate === 'function') showAuthGate();
@@ -336,11 +378,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (existing) {
             existing.qty += 1;
         } else {
-            cart.push({ name, price, img, qty: 1 });
+            cart.push({ name, price, img, qty: 1, productId: productId || null });
         }
         updateCartUI();
         openCart();
         showToast(`Đã thêm "${name}" vào giỏ hàng!`);
+        // Sync to API
+        if (productId) apiCartSync(productId, 1);
     }
 
     window.changeQty = (idx, delta) => {
@@ -361,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add to cart buttons
     document.querySelectorAll('.add-cart').forEach(btn => {
         btn.addEventListener('click', () => {
-            addToCart(btn.dataset.name, parseInt(btn.dataset.price), btn.dataset.img);
+            addToCart(btn.dataset.name, parseInt(btn.dataset.price), btn.dataset.img, btn.dataset.id || null);
         });
     });
 

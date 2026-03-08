@@ -438,6 +438,60 @@ select {
     color: var(--accent);
 }
 
+.search-results {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 24px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.search-result-item:hover {
+    background: var(--accent-soft);
+}
+
+.search-result-item img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+.search-result-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.search-result-item strong {
+    font-size: 14px;
+}
+
+.search-result-item span {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.search-no-result {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
 /* Mobile Nav */
 .mobile-nav {
     position: fixed;
@@ -2463,7 +2517,7 @@ select {
     margin-bottom: 14px;
 }
 
-.auth-field i {
+.auth-field>i {
     position: absolute;
     left: 14px;
     top: 50%;

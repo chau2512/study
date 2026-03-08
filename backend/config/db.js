@@ -1,26 +1,46 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+const Database = require('better-sqlite3');
+const path = require('path');
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'machausilk',
-    charset: 'utf8mb4',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+const DB_PATH = path.join(__dirname, '..', '..', 'database', 'machausilk.db');
+const db = new Database(DB_PATH);
 
-// Test connection
-pool.getConnection()
-    .then(conn => {
-        console.log('✅ Database connected successfully');
-        conn.release();
-    })
-    .catch(err => {
-        console.error('❌ Database connection failed:', err.message);
-    });
+// Enable WAL mode for better performance
+db.pragma('journal_mode = WAL');
+db.pragma('foreign_keys = ON');
 
-module.exports = pool;
+console.log('✅ SQLite database connected:', DB_PATH);
+
+// MySQL-compatible wrapper so route files need minimal changes
+// mysql2: const [rows] = await db.query(sql, params) → rows is an array
+// This wrapper returns same format: [rows] for SELECT, [{ insertId, affectedRows }] for INSERT/UPDATE/DELETE
+module.exports = {
+    query(sql, params = []) {
+        // Convert MySQL-style ? placeholders — SQLite also uses ? so no conversion needed
+        const trimmed = sql.trim().toUpperCase();
+        const isSelect = trimmed.startsWith('SELECT') || trimmed.startsWith('SHOW') || trimmed.startsWith('PRAGMA');
+
+        if (isSelect) {
+            const stmt = db.prepare(sql);
+            const rows = stmt.all(...params);
+            return [rows];
+        } else {
+            const stmt = db.prepare(sql);
+            const result = stmt.run(...params);
+            return [{ insertId: result.lastInsertRowid, affectedRows: result.changes }];
+        }
+    },
+
+    // Transaction support (mimics MySQL pool.getConnection())
+    getConnection() {
+        return {
+            query: (sql, params = []) => module.exports.query(sql, params),
+            beginTransaction: () => db.exec('BEGIN'),
+            commit: () => db.exec('COMMIT'),
+            rollback: () => db.exec('ROLLBACK'),
+            release: () => { /* no-op for SQLite */ }
+        };
+    },
+
+    // Direct access to the raw db instance
+    raw: db
+};

@@ -13,8 +13,8 @@ router.get('/', authenticate, async (req, res) => {
                    pi.image_url
             FROM cart_items ci
             JOIN products p ON ci.product_id = p.id
-            LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = TRUE
-            WHERE ci.user_id = ? AND p.is_active = TRUE
+            LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1
+            WHERE ci.user_id = ? AND p.is_active = 1
             ORDER BY ci.added_at DESC
         `, [req.user.id]);
 
@@ -33,7 +33,7 @@ router.post('/', authenticate, async (req, res) => {
 
         // Check product exists
         const [products] = await db.query(
-            'SELECT stock_qty, name FROM products WHERE id = ? AND is_active = TRUE',
+            'SELECT stock_qty, name FROM products WHERE id = ? AND is_active = 1',
             [product_id]
         );
         if (products.length === 0) {
@@ -47,8 +47,8 @@ router.post('/', authenticate, async (req, res) => {
         await db.query(`
             INSERT INTO cart_items (user_id, product_id, quantity)
             VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
-        `, [req.user.id, product_id, quantity]);
+            ON CONFLICT(user_id, product_id) DO UPDATE SET quantity = quantity + ?
+        `, [req.user.id, product_id, quantity, quantity]);
 
         res.json({ message: `Đã thêm ${products[0].name} vào giỏ hàng` });
     } catch (err) {

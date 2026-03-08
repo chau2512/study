@@ -32,7 +32,7 @@ router.post('/newsletter', async (req, res) => {
 
         await db.query(
             `INSERT INTO newsletter_subscribers (email) VALUES (?)
-             ON DUPLICATE KEY UPDATE is_active = TRUE, unsubscribed_at = NULL`,
+             ON CONFLICT(email) DO UPDATE SET is_active = 1, unsubscribed_at = NULL`,
             [email]
         );
 
@@ -46,7 +46,7 @@ router.post('/newsletter', async (req, res) => {
 router.get('/categories', async (req, res) => {
     try {
         const [categories] = await db.query(
-            'SELECT * FROM categories WHERE is_active = TRUE ORDER BY sort_order'
+            'SELECT * FROM categories WHERE is_active = 1 ORDER BY sort_order'
         );
         res.json(categories);
     } catch (err) {
