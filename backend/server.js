@@ -16,20 +16,11 @@ app.use(helmet({
     crossOriginEmbedderPolicy: false
 }));
 
-// CORS — chỉ cho phép domain cụ thể
-const allowedOrigins = process.env.FRONTEND_URL
-    ? process.env.FRONTEND_URL.split(',').map(s => s.trim())
-    : ['http://localhost:5500', 'http://localhost:3000', 'http://127.0.0.1:5500'];
+// CORS — development: cho tất cả, production: chỉ domain chính thức
+const isDev = (process.env.NODE_ENV || 'development') === 'development';
 
 app.use(cors({
-    origin: (origin, callback) => {
-        // Cho phép request không có origin (mobile apps, curl, same-origin)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Không được phép truy cập (CORS)'));
-        }
-    },
+    origin: isDev ? true : (process.env.FRONTEND_URL || 'http://localhost:3000').split(',').map(s => s.trim()),
     credentials: true
 }));
 
