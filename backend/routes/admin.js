@@ -26,7 +26,7 @@ router.get('/stats', async (req, res) => {
 
         // Monthly revenue (last 6 months)
         const [monthlyRevenue] = await db.query(`
-            SELECT strftime('%Y-%m', created_at) as month,
+            SELECT DATE_FORMAT(created_at, '%Y-%m') as month,
                    SUM(total_amount) as revenue,
                    COUNT(*) as orders
             FROM orders WHERE status != 'cancelled' AND status != 'refunded'

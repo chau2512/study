@@ -278,7 +278,7 @@
                 <td>${p.id}</td>
                 <td>
                     <div style="display:flex;align-items:center;gap:10px">
-                        <img src="${p.primary_image || 'images/logo.png'}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+                        <img src="${p.primary_image || 'images/logo.jpg'}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
                         <strong>${p.name}</strong>
                     </div>
                 </td>

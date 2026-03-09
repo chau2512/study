@@ -47,7 +47,7 @@ router.post('/', authenticate, async (req, res) => {
         await db.query(`
             INSERT INTO cart_items (user_id, product_id, quantity)
             VALUES (?, ?, ?)
-            ON CONFLICT(user_id, product_id) DO UPDATE SET quantity = quantity + ?
+            ON DUPLICATE KEY UPDATE quantity = quantity + ?
         `, [req.user.id, product_id, quantity, quantity]);
 
         res.json({ message: `Đã thêm ${products[0].name} vào giỏ hàng` });

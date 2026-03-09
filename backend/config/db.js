@@ -1,46 +1,51 @@
-const Database = require('better-sqlite3');
-const path = require('path');
+const mysql = require('mysql2/promise');
 
-const DB_PATH = path.join(__dirname, '..', '..', 'database', 'machausilk.db');
-const db = new Database(DB_PATH);
+const pool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'machausilk',
+    waitForConnections: true,
+    connectionLimit: 20,
+    queueLimit: 0,
+    charset: 'utf8mb4'
+});
 
-// Enable WAL mode for better performance
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+// Test connection on startup
+pool.getConnection()
+    .then(conn => {
+        console.log('✅ MySQL database connected:', process.env.DB_NAME || 'machausilk');
+        conn.release();
+    })
+    .catch(err => {
+        console.error('❌ MySQL connection error:', err.message);
+    });
 
-console.log('✅ SQLite database connected:', DB_PATH);
+// Sanitize params: convert undefined to null (mysql2 rejects undefined)
+function sanitize(params) {
+    return params.map(p => p === undefined ? null : p);
+}
 
-// MySQL-compatible wrapper so route files need minimal changes
-// mysql2: const [rows] = await db.query(sql, params) → rows is an array
-// This wrapper returns same format: [rows] for SELECT, [{ insertId, affectedRows }] for INSERT/UPDATE/DELETE
 module.exports = {
-    query(sql, params = []) {
-        // Convert MySQL-style ? placeholders — SQLite also uses ? so no conversion needed
-        const trimmed = sql.trim().toUpperCase();
-        const isSelect = trimmed.startsWith('SELECT') || trimmed.startsWith('SHOW') || trimmed.startsWith('PRAGMA');
-
-        if (isSelect) {
-            const stmt = db.prepare(sql);
-            const rows = stmt.all(...params);
-            return [rows];
-        } else {
-            const stmt = db.prepare(sql);
-            const result = stmt.run(...params);
-            return [{ insertId: result.lastInsertRowid, affectedRows: result.changes }];
-        }
+    async query(sql, params = []) {
+        const [rows] = await pool.query(sql, sanitize(params));
+        return [rows];
     },
 
-    // Transaction support (mimics MySQL pool.getConnection())
-    getConnection() {
+    async getConnection() {
+        const conn = await pool.getConnection();
         return {
-            query: (sql, params = []) => module.exports.query(sql, params),
-            beginTransaction: () => db.exec('BEGIN'),
-            commit: () => db.exec('COMMIT'),
-            rollback: () => db.exec('ROLLBACK'),
-            release: () => { /* no-op for SQLite */ }
+            query: async (sql, params = []) => {
+                const [rows] = await conn.query(sql, sanitize(params));
+                return [rows];
+            },
+            beginTransaction: () => conn.beginTransaction(),
+            commit: () => conn.commit(),
+            rollback: () => conn.rollback(),
+            release: () => conn.release()
         };
     },
 
-    // Direct access to the raw db instance
-    raw: db
+    raw: pool
 };

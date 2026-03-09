@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.products && data.products.length > 0) {
                 searchResults.innerHTML = data.products.map(p => `
                     <a href="#san-pham" class="search-result-item" onclick="document.getElementById('search-overlay').classList.remove('active')">
-                        <img src="${p.primary_image || 'images/logo.png'}" alt="${p.name}">
+                        <img src="${p.primary_image || 'images/logo.jpg'}" alt="${p.name}">
                         <div>
                             <strong>${p.name}</strong>
                             <span>${p.price.toLocaleString('vi-VN')}đ</span>

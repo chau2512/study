@@ -32,7 +32,7 @@ router.post('/newsletter', async (req, res) => {
 
         await db.query(
             `INSERT INTO newsletter_subscribers (email) VALUES (?)
-             ON CONFLICT(email) DO UPDATE SET is_active = 1, unsubscribed_at = NULL`,
+             ON DUPLICATE KEY UPDATE is_active = 1, unsubscribed_at = NULL`,
             [email]
         );
 
