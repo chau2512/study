@@ -2,17 +2,59 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ===== MIDDLEWARE =====
+// ===== SECURITY MIDDLEWARE =====
+
+// Helmet: security headers (CSP, X-Frame-Options, HSTS, etc.)
+app.use(helmet({
+    contentSecurityPolicy: false, // Tắt CSP vì frontend dùng inline scripts
+    crossOriginEmbedderPolicy: false
+}));
+
+// CORS — chỉ cho phép domain cụ thể
+const allowedOrigins = process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(',').map(s => s.trim())
+    : ['http://localhost:5500', 'http://localhost:3000', 'http://127.0.0.1:5500'];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: (origin, callback) => {
+        // Cho phép request không có origin (mobile apps, curl, same-origin)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Không được phép truy cập (CORS)'));
+        }
+    },
     credentials: true
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// Rate limiting — chống brute-force & DDoS
+const apiLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 phút
+    max: 100,                 // 100 requests/phút
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 1 phút' }
+});
+
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 phút
+    max: 10,                   // 10 lần đăng nhập / 15 phút
+    message: { error: 'Quá nhiều lần thử đăng nhập, vui lòng đợi 15 phút' }
+});
+
+app.use('/api', apiLimiter);
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/register', authLimiter);
+
+// ===== BODY PARSERS =====
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // Serve static files (images, frontend)
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
@@ -69,10 +111,13 @@ app.use('/api/*', (req, res) => {
     res.status(404).json({ error: 'API endpoint không tồn tại' });
 });
 
-// ===== ERROR HANDLER =====
+// ===== ERROR HANDLER — không lộ thông tin nội bộ =====
 app.use((err, req, res, next) => {
     console.error('Server Error:', err);
-    res.status(500).json({ error: 'Lỗi server, vui lòng thử lại sau' });
+    const isDev = process.env.NODE_ENV === 'development';
+    res.status(500).json({
+        error: isDev ? err.message : 'Lỗi server, vui lòng thử lại sau'
+    });
 });
 
 // ===== START SERVER =====
@@ -82,6 +127,7 @@ app.listen(PORT, () => {
     ║     🧵 MachauSilk API Server              ║
     ║     Running on: http://localhost:${PORT}     ║
     ║     Environment: ${process.env.NODE_ENV || 'development'}          ║
+    ║     Security: Helmet ✅ RateLimit ✅       ║
     ╚═══════════════════════════════════════════╝
     `);
 });

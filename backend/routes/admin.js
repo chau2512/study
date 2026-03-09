@@ -39,7 +39,8 @@ router.get('/stats', async (req, res) => {
             recentOrders, monthlyRevenue
         });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin stats error:', err);
+        res.status(500).json({ error: 'Lỗi tải thống kê' });
     }
 });
 
@@ -73,7 +74,7 @@ router.get('/orders', async (req, res) => {
 
         res.json({ orders, total, page: parseInt(page), totalPages: Math.ceil(total / limit) });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -91,7 +92,8 @@ router.get('/orders/:id', async (req, res) => {
         const [items] = await db.query('SELECT * FROM order_items WHERE order_id = ?', [req.params.id]);
         res.json({ ...orders[0], items });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin order detail error:', err);
+        res.status(500).json({ error: 'Lỗi tải chi tiết đơn hàng' });
     }
 });
 
@@ -114,7 +116,8 @@ router.put('/orders/:id/status', async (req, res) => {
 
         res.json({ message: 'Cập nhật trạng thái thành công' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin update status error:', err);
+        res.status(500).json({ error: 'Lỗi cập nhật trạng thái' });
     }
 });
 
@@ -132,17 +135,18 @@ router.get('/users', async (req, res) => {
         const [[{ total }]] = await db.query('SELECT COUNT(*) as total FROM users');
         res.json({ users, total, page: parseInt(page), totalPages: Math.ceil(total / limit) });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin users error:', err);
+        res.status(500).json({ error: 'Lỗi tải danh sách người dùng' });
     }
 });
 
-// PUT /api/admin/users/:id — Update user
+// PUT /api/admin/users/:id — Update user (whitelisted fields only)
+const USER_UPDATABLE = ['role', 'is_active'];
 router.put('/users/:id', async (req, res) => {
     try {
-        const { role, is_active } = req.body;
         const updates = {};
-        if (role !== undefined) updates.role = role;
-        if (is_active !== undefined) updates.is_active = is_active;
+        if (req.body.role !== undefined && ['customer', 'admin'].includes(req.body.role)) updates.role = req.body.role;
+        if (req.body.is_active !== undefined) updates.is_active = req.body.is_active ? 1 : 0;
 
         if (Object.keys(updates).length === 0) return res.status(400).json({ error: 'Không có gì để cập nhật' });
 
@@ -150,7 +154,8 @@ router.put('/users/:id', async (req, res) => {
         await db.query(`UPDATE users SET ${sets} WHERE id = ?`, [...Object.values(updates), req.params.id]);
         res.json({ message: 'Cập nhật thành công' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin update user error:', err);
+        res.status(500).json({ error: 'Lỗi cập nhật người dùng' });
     }
 });
 
@@ -173,7 +178,8 @@ router.get('/contacts', async (req, res) => {
 
         res.json({ messages, total, page: parseInt(page), totalPages: Math.ceil(total / limit) });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin contacts error:', err);
+        res.status(500).json({ error: 'Lỗi tải tin nhắn' });
     }
 });
 
@@ -189,7 +195,8 @@ router.put('/contacts/:id', async (req, res) => {
         await db.query(`UPDATE contact_messages SET ${sets} WHERE id = ?`, [...Object.values(updates), req.params.id]);
         res.json({ message: 'Cập nhật thành công' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin update contact error:', err);
+        res.status(500).json({ error: 'Lỗi cập nhật tin nhắn' });
     }
 });
 
@@ -210,7 +217,8 @@ router.get('/products', async (req, res) => {
         const [[{ total }]] = await db.query('SELECT COUNT(*) as total FROM products');
         res.json({ products, total, page: parseInt(page), totalPages: Math.ceil(total / limit) });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Admin products error:', err);
+        res.status(500).json({ error: 'Lỗi tải sản phẩm' });
     }
 });
 

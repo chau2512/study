@@ -22,7 +22,7 @@ router.get('/', authenticate, async (req, res) => {
 
         res.json({ items, total, item_count: items.length });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -52,7 +52,7 @@ router.post('/', authenticate, async (req, res) => {
 
         res.json({ message: `Đã thêm ${products[0].name} vào giỏ hàng` });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -71,7 +71,7 @@ router.put('/:id', authenticate, async (req, res) => {
         );
         res.json({ message: 'Đã cập nhật giỏ hàng' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -82,7 +82,7 @@ router.delete('/:id', authenticate, async (req, res) => {
             [req.params.id, req.user.id]);
         res.json({ message: 'Đã xóa khỏi giỏ hàng' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 

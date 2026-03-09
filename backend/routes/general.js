@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
         res.status(201).json({ message: 'Cảm ơn bạn! Chúng tôi sẽ phản hồi sớm nhất.' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -38,7 +38,7 @@ router.post('/newsletter', async (req, res) => {
 
         res.json({ message: 'Đăng ký nhận tin thành công!' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -50,7 +50,7 @@ router.get('/categories', async (req, res) => {
         );
         res.json(categories);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 

@@ -87,7 +87,7 @@ router.get('/', async (req, res) => {
             }
         });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -128,7 +128,7 @@ router.get('/:slug', async (req, res) => {
 
         res.json({ ...product, images, reviews });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -153,21 +153,29 @@ router.post('/', authenticate, isAdmin, async (req, res) => {
 
         res.status(201).json({ message: 'Đã thêm sản phẩm', id: result.insertId });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
 // PUT /api/products/:id — Cập nhật sản phẩm (admin)
+const PRODUCT_UPDATABLE = ['name', 'slug', 'category_id', 'sku', 'description', 'short_desc',
+    'price', 'original_price', 'stock_qty', 'material', 'width_cm', 'weight_gsm',
+    'badge', 'is_active', 'is_featured', 'colors'];
+
 router.put('/:id', authenticate, isAdmin, async (req, res) => {
     try {
         const fields = req.body;
-        const sets = Object.keys(fields).map(k => `${k} = ?`).join(', ');
-        const values = Object.values(fields);
+        const safeKeys = Object.keys(fields).filter(k => PRODUCT_UPDATABLE.includes(k));
+        if (safeKeys.length === 0) return res.status(400).json({ error: 'Không có trường hợp lệ để cập nhật' });
+
+        const sets = safeKeys.map(k => `${k} = ?`).join(', ');
+        const values = safeKeys.map(k => fields[k]);
 
         await db.query(`UPDATE products SET ${sets} WHERE id = ?`, [...values, req.params.id]);
         res.json({ message: 'Đã cập nhật sản phẩm' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Update product error:', err);
+        res.status(500).json({ error: 'Lỗi cập nhật sản phẩm' });
     }
 });
 
@@ -177,7 +185,7 @@ router.delete('/:id', authenticate, isAdmin, async (req, res) => {
         await db.query('UPDATE products SET is_active = 0 WHERE id = ?', [req.params.id]);
         res.json({ message: 'Đã xóa sản phẩm' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -205,7 +213,7 @@ router.post('/:id/images', authenticate, isAdmin, upload.array('images', 5), asy
 
         res.json({ message: `Đã upload ${req.files.length} ảnh`, images: insertImg });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 

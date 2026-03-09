@@ -9,5 +9,14 @@ setup_images.ps1
 Thumbs.db
 desktop.ini
 
+# Dependencies
+node_modules/
+
+# Environment (NEVER commit secrets)
+.env
+.env.local
+.env.production
+
 # Antigravity
 .gemini/
+

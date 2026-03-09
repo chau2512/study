@@ -41,7 +41,7 @@ router.post('/register', async (req, res) => {
             user: { id: result.insertId, full_name, email, phone }
         });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -82,7 +82,7 @@ router.post('/login', async (req, res) => {
             }
         });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -98,7 +98,7 @@ router.get('/me', authenticate, async (req, res) => {
         }
         res.json(users[0]);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 

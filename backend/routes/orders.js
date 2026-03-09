@@ -16,7 +16,7 @@ router.get('/', authenticate, async (req, res) => {
         `, [req.user.id]);
         res.json(orders);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -38,7 +38,7 @@ router.get('/:id', authenticate, async (req, res) => {
 
         res.json({ ...orders[0], items });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     }
 });
 
@@ -160,7 +160,7 @@ router.post('/', authenticate, async (req, res) => {
         });
     } catch (err) {
         await conn.rollback();
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: 'Lỗi xử lý yêu cầu' });
     } finally {
         conn.release();
     }
