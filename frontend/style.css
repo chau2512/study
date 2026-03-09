@@ -678,7 +678,7 @@ select {
 
 .hero-controls {
     position: absolute;
-    bottom: 40px;
+    bottom: 90px;
     right: max(24px, calc(50% - var(--container)/2 + 24px));
     z-index: 10;
     display: flex;
@@ -720,7 +720,7 @@ select {
 
 .hero-scroll {
     position: absolute;
-    bottom: 40px;
+    bottom: 90px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
